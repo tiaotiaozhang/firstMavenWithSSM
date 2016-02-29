@@ -178,7 +178,7 @@ public class RequestUtil {
     public static boolean fillObjectFromRequest(Object fillObject, HttpServletRequest request) {
            
         try {
-            Map parameterMap = request.getParameterMap();
+            Map<String, String[]> parameterMap = request.getParameterMap();
             
             if (parameterMap == null)
                 return false;

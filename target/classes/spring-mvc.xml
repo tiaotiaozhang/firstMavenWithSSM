@@ -43,9 +43,47 @@
         <property name="templateResolver" ref="templateResolver" />  
     </bean>  
 
-    <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">  
-        <property name="templateEngine" ref="templateEngine"/>  
-    </bean>  
+<!--     <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">   -->
+<!--         <property name="templateEngine" ref="templateEngine"/>   -->
+<!--         <property name="order" value="1"></property> -->
+<!--     </bean>   -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager" ref="cnManager"/>
+        
+        <property name="viewResolvers">
+        	<list>
+                <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+                    <property name="order" value="1"/>
+                </bean>
+                
+                <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+                    <property name="templateEngine" ref="templateEngine" />
+                    <property name="characterEncoding" value="UTF-8"/>
+                    <property name="order" value="2"/>
+                    <property name="excludedViewNames" value="*.xml" />
+                </bean>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="prefix" value="/WEB-INF/jsp/"/>
+                    <property name="suffix" value=".jsp"/>
+                    <property name="order" value="3"/>
+                </bean>
+        	</list>
+        </property>
+    </bean>
+    <!-- Simple strategy: only path extension is taken into account -->
+    <bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="true"/>
+        <property name="ignoreAcceptHeader" value="true"/>
+        <property name="defaultContentType" value="text/html"/>
+        
+        <property name="mediaTypes">
+            <map>
+                <entry key="html" value="text/html" />
+                <entry key="xml" value="application/xml" />
+                <entry key="atom" value="application/atom+xml" />
+            </map>
+        </property>
+    </bean>
     <!-- 定义跳转的文件的前后缀 ，视图模式配置-->  
 <!--     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">   -->
 <!--         这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址   -->

@@ -8,9 +8,10 @@ import com.zcb.firstMvn.model.User;
 
 @Controller
 public class LoginController {
-    User user = new User();
     @RequestMapping(value="/login")  
     public String login( Model model){  
+        User user = new User();
+        user.setId(121212);
         model.addAttribute("user", user);
         return "login";  
     }  

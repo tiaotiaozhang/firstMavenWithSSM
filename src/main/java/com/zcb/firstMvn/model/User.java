@@ -1,10 +1,16 @@
 package com.zcb.firstMvn.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 
 public class User {
+    
+    @NotBlank(message="入力してください")
     private Integer id;
 
+    @NotEmpty
     private String userName;
 
     private String password;
